@@ -110,10 +110,26 @@ bin/lov-index lov_aggregator.nq elasticsearch localhost
 
 Once the ElasticSearch index is populated, the standard REST-based ElasticSearch APIs can be used to run searches.
 
+### Simple keyword ("match") queries
 The following example searches for classes, properties and vocabularies in the `lov` index, using the keyword `test`:
 
 ````
-http://localhost:9200/lov/class,property,vocabulary/_search?q=test&pretty=1
+curl 'http://localhost:9200/lov/class,property,vocabulary/_search?q=test&pretty=1'
+````
+
+Equivalent to:
+
+````
+curl -XPOST 'http://localhost:9200/lov/class,property,vocabulary/_search?pretty=1' -d '{"query":{"match":{"_all":"test"}}}'
+````
+
+
+### Autocompletion on prefixed names
+
+This does a [prefix query](http://www.elasticsearch.org/guide/reference/query-dsl/prefix-query/) on both the `prefixed` and `localName` fields.
+
+````
+curl -XPOST 'http://localhost:9200/lov/class,property/_search?pretty=1' -d '{"query":{"bool":{"should":[{"prefix":{"prefixed":"fr"}},{"prefix":{"localName":"fr"}}]}}}'
 ````
 
 
