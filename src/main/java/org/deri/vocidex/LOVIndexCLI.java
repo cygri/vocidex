@@ -85,22 +85,6 @@ public class LOVIndexCLI extends CmdGeneral {
 				indexer.close();
 			}
 
-			// FIXME: Hack for demo
-			log.info("Loading PAPP");
-			Model papp = RDFDataMgr.loadModel("http://vocab.deri.ie/papp.ttl");
-			VocabularyToJSONTransformer pappTransformer = new VocabularyToJSONTransformer(papp);
-			ObjectNode json = new ObjectMapper().createObjectNode();
-			json.put("type", "vocabulary");
-			json.put("prefix", "papp");
-			json.put("label", "Planning Application Vocabulary");
-			pappTransformer.setVocabularyDescription(json);
-			indexer = new ResourceIndexer(pappTransformer, hostName, clusterName, lovIndexName);
-			try {
-				indexer.doIndex();
-			} finally {
-				indexer.close();
-			}
-
 			log.info("Done!");
 		} catch (NotFoundException ex) {
 			cmdError("Not found: " + ex.getMessage());
