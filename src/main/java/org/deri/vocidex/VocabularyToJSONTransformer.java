@@ -160,6 +160,9 @@ public class VocabularyToJSONTransformer extends SPARQLToJSONHelper implements R
 		putString(json, "comment", getComment(term));
 		if (vocabulary != null) {
 			json.put("vocabulary", vocabulary);
+			if (vocabulary.get("prefix") != null && vocabulary.get("prefix").getTextValue() != null) {
+				json.put("prefixed", vocabulary.get("prefix").getTextValue() + ":" + term.getLocalName());
+			}
 		}
 		return json;
 	}
