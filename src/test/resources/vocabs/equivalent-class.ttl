@@ -1,0 +1,11 @@
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+org:Organization a rdfs:Class;
+  rdfs:label "Organization"@en;
+  owl:equivalentClass foaf:Organization.
+
+foaf:Organization a rdfs:Class;
+  rdfs:label "Organization"@en.

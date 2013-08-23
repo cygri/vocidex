@@ -1,0 +1,41 @@
+{
+  "classes": [],
+  "properties": [
+    {
+      "type": "property",
+      "uri": "http://www.w3.org/ns/org#identifier",
+      "localName": "identifier",
+      "label": "identifier",
+      "isDatatypeProperty": true
+    },
+    {
+      "type": "property",
+      "uri": "http://www.w3.org/ns/org#member",
+      "localName": "member",
+      "label": "member",
+      "isFunctionalProperty": true
+    },
+    {
+      "type": "property",
+      "uri": "http://www.w3.org/ns/org#roleProperty",
+      "localName": "roleProperty",
+      "label": "role (property)",
+      "isAnnotationProperty": true
+    },
+    {
+      "type": "property",
+      "uri": "http://www.w3.org/ns/org#subOrganizationOf",
+      "localName": "subOrganizationOf",
+      "label": "sub-organization of",
+      "isObjectProperty": true
+    },
+    {
+      "type": "property",
+      "uri": "http://www.w3.org/ns/org#transitiveSubOrganizationOf",
+      "localName": "transitiveSubOrganizationOf",
+      "label": "transitive sub-organization of",
+      "isTransitiveProperty": true
+    }
+  ],
+  "datatypes": []
+}

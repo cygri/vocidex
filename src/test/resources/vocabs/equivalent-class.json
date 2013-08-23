@@ -1,0 +1,30 @@
+{
+  "classes": [
+    {
+      "type": "class",
+      "uri": "http://www.w3.org/ns/org#Organization",
+      "localName": "Organization",
+      "label": "Organization",
+      "equivalentClasses": [
+        {
+          "uri": "http://xmlns.com/foaf/0.1/Organization",
+          "label": "Organization"
+        }
+      ]
+    },
+    {
+      "type": "class",
+      "uri": "http://xmlns.com/foaf/0.1/Organization",
+      "localName": "Organization",
+      "label": "Organization",
+      "equivalentClasses": [
+        {
+          "uri": "http://www.w3.org/ns/org#Organization",
+          "label": "Organization"
+        }
+      ]
+    }
+  ],
+  "properties": [],
+  "datatypes": []
+}

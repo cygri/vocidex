@@ -1,0 +1,5 @@
+cluster.name: elasticsearch
+path.data: ./elasticsearch/data
+path.logs: ./elasticsearch/logs
+path.plugins: ./elasticsearch/plugins
+network.host: 127.0.0.1

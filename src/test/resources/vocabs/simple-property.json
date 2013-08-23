@@ -1,0 +1,12 @@
+{
+  "classes": [],
+  "properties": [
+    {
+      "type": "property",
+      "uri": "http://www.w3.org/ns/org#subOrganizationOf",
+      "localName": "subOrganizationOf",
+      "label": "sub-organization of"
+    }
+  ],
+  "datatypes": []
+}

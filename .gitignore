@@ -4,3 +4,14 @@
 *.jar
 *.war
 *.ear
+
+# Eclipse stuff
+.settings
+.classpath
+.project
+
+# Maven output
+target
+
+# ElasticSearch index, logs, etc
+elasticsearch

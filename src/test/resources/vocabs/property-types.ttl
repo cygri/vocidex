@@ -1,0 +1,19 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix org: <http://www.w3.org/ns/org#> .
+
+org:subOrganizationOf a rdf:Property, owl:ObjectProperty;
+  rdfs:label "sub-organization of"@en.
+
+org:transitiveSubOrganizationOf a rdf:Property, owl:TransitiveProperty;
+  rdfs:label "transitive sub-organization of"@en.
+
+org:identifier a rdf:Property, owl:DatatypeProperty;
+  rdfs:label "identifier"@en.
+
+org:member a rdf:Property, owl:FunctionalProperty;
+  rdfs:label "member"@en.
+
+org:roleProperty a rdf:PRoperty, owl:AnnotationProperty;
+  rdfs:label "role (property)"@en.

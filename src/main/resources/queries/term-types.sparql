@@ -1,0 +1,4 @@
+SELECT ?type {
+  ?term a ?type
+  FILTER (isURI(?type))
+}

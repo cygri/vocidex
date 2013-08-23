@@ -1,0 +1,30 @@
+{
+  "classes": [
+    {
+      "type": "class",
+      "uri": "http://www.w3.org/ns/org#Organization",
+      "localName": "Organization",
+      "label": "Organization",
+      "disjointClasses": [
+        {
+          "uri": "http://www.w3.org/ns/org#Site",
+          "label": "Site"
+        }
+      ]
+    },
+    {
+      "type": "class",
+      "uri": "http://www.w3.org/ns/org#Site",
+      "localName": "Site",
+      "label": "Site",
+      "disjointClasses": [
+        {
+          "uri": "http://www.w3.org/ns/org#Organization",
+          "label": "Organization"
+        }
+      ]
+    }
+  ],
+  "properties": [],
+  "datatypes": []
+}

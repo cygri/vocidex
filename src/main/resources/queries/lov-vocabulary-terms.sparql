@@ -1,0 +1,47 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX voaf: <http://purl.org/vocommons/voaf#>
+PREFIX vann: <http://purl.org/vocab/vann/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+# ?term A term (class, property or datatype)
+# ?vocab The vocabulary that defines the term, according to LOV metadata
+SELECT ?term ?vocab {
+
+  # Find all vocabularies, with the attached
+  # preferred namespace URI, from LOV metadata
+  GRAPH <http://lov.okfn.org/dataset/lov/lov.rdf> {
+    ?vocab a voaf:Vocabulary;
+      vann:preferredNamespaceUri ?ns
+  }
+
+  # Now find all terms mentioned in the aggregated vocabulary graphs
+  # We use DISTINCT to get only one match for terms that are defined
+  # for example as both rdfs:Class and owl:Class
+  {
+    SELECT DISTINCT ?vocab ?term {
+      GRAPH ?vocab {
+        { ?term a rdfs:Class }
+        UNION
+        { ?term a owl:Class }
+        UNION
+        { ?term a rdf:Property }
+        UNION
+        { ?term a owl:DatatypeProperty }
+        UNION
+        { ?term a owl:ObjectProperty }
+        UNION
+        { ?term a owl:AnnotationProperty }
+        UNION
+        { ?term a rdfs:Datatype }
+        FILTER isURI(?term)
+      }
+    }
+  }
+
+  # Keep only those terms that start with the vocabulary's
+  # preferred namespace URI, thus excluding cases where
+  # a term is only mentioned, but not authoritatively
+  # defined, in a graph
+  FILTER (STRSTARTS(STR(?term), STR(?ns)))
+}

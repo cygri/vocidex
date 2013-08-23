@@ -1,0 +1,30 @@
+{
+  "classes": [],
+  "properties": [
+    {
+      "type": "property",
+      "uri": "http://www.w3.org/ns/org#hasMember",
+      "localName": "hasMember",
+      "label": "has member",
+      "equivalentProperties": [
+        {
+          "uri": "http://xmlns.com/foaf/0.1/member",
+          "label": "member"
+        }
+      ]
+    },
+    {
+      "type": "property",
+      "uri": "http://xmlns.com/foaf/0.1/member",
+      "localName": "member",
+      "label": "member",
+      "equivalentProperties": [
+        {
+          "uri": "http://www.w3.org/ns/org#hasMember",
+          "label": "has member"
+        }
+      ]
+    }
+  ],
+  "datatypes": []
+}

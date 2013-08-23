@@ -1,0 +1,24 @@
+{
+  "classes": [
+    {
+      "type": "class",
+      "uri": "http://www.w3.org/ns/org#FormalOrganization",
+      "localName": "FormalOrganization",
+      "label": "Formal Organization",
+      "superclasses": [
+        {
+          "uri": "http://www.w3.org/ns/org#Organization",
+          "label": "Organization"
+        }
+      ]
+    },
+    {
+      "type": "class",
+      "uri": "http://www.w3.org/ns/org#Organization",
+      "localName": "Organization",
+      "label": "Organization"
+    }
+  ],
+  "properties": [],
+  "datatypes": []
+}

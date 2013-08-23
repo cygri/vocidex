@@ -1,0 +1,34 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX voaf: <http://purl.org/vocommons/voaf#>
+PREFIX bibo: <http://purl.org/ontology/bibo/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX dct:  <http://purl.org/dc/terms/>
+PREFIX vann: <http://purl.org/vocab/vann/>
+
+# Parameters
+# ?vocab A vocabulary, as defined in LOV metadata
+# Results
+# ?prefix The vocabulary's preferred prefix, e.g., "foaf" for FOAF (plain literal)
+# ?title The vocabulary's title
+# ?shortTitle An optional shortened version of the title
+# ?description An optional description of the vocablary
+# ?homepage An optional vocabulary homepage URL
+SELECT ?prefix ?title ?shortTitle ?description ?homepage {
+
+  # Check only the LOV metadata graph
+  GRAPH <http://lov.okfn.org/dataset/lov/lov.rdf> {
+    ?vocab a voaf:Vocabulary .
+    ?vocab vann:preferredNamespacePrefix ?prefix .
+
+    # We require an English title (or title of unspecified language).
+    # This unfortunately removes perfeclty fine vocabularies.
+    ?vocab dct:title ?title . FILTER (LANGMATCHES(LANG(?title), "en") || LANG(?title) = "")
+
+    OPTIONAL { ?vocab bibo:shortTitle ?shortTitle . FILTER (LANGMATCHES(LANG(?shortTitle), "en") || LANG(?title) = "") }
+    OPTIONAL { ?vocab dct:description ?description . FILTER (LANGMATCHES(LANG(?description), "en") || LANG(?title) = "")  }
+    OPTIONAL { ?vocab foaf:homepage ?homepage }
+  }
+}
+# There should only ever be one value for each property,
+# so this shouldn't change anything
+LIMIT 1

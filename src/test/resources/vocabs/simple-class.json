@@ -1,0 +1,12 @@
+{
+  "classes": [
+    {
+      "type": "class",
+      "uri": "http://www.w3.org/ns/org#Organization",
+      "localName": "Organization",
+      "label": "Organization"
+    }
+  ],
+  "properties": [],
+  "datatypes": []
+}

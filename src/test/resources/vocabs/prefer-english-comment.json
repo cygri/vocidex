@@ -1,0 +1,13 @@
+{
+  "classes": [
+    {
+      "type": "class",
+      "uri": "http://www.w3.org/ns/org#Organization",
+      "localName": "Organization",
+      "label": "Organization",
+      "comment": "Represents a collection of people organized together into a community or other social, commercial or political structure."
+    }
+  ],
+  "properties": [],
+  "datatypes": []
+}

@@ -1,0 +1,14 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl:  <http://www.w3.org/2002/07/owl#>
+SELECT DISTINCT ?class {
+  # DISTINCT to cope with classes that are typed both as rdfs:Class and owl:Class
+  {
+    # RDFS classes
+    ?class a rdfs:Class
+  } UNION {
+    # OWL classes
+    ?class a owl:Class
+  }
+  # Skip blank node classes -- we can't use them in data
+  FILTER (isURI(?class))
+}

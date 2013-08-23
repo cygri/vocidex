@@ -1,0 +1,7 @@
+@prefix rdfs:       <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix org:        <http://www.w3.org/ns/org#> .
+
+org:Organization a rdfs:Class;
+  rdfs:label "Organization"@en;
+  rdfs:comment "Represents a collection of people organized together into a community or other social, commercial or political structure."@en;
+  rdfs:comment "Représente un groupe de personnes organisées en communauté où tout autre forme de structure sociale, commerciale ou politique."@fr.

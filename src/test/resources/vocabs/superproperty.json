@@ -1,0 +1,24 @@
+{
+  "classes": [],
+  "properties": [
+    {
+      "type": "property",
+      "uri": "http://www.w3.org/ns/org#subOrganizationOf",
+      "localName": "subOrganizationOf",
+      "label": "sub-organization of"
+    },
+    {
+      "type": "property",
+      "uri": "http://www.w3.org/ns/org#transitiveSubOrganizationOf",
+      "localName": "transitiveSubOrganizationOf",
+      "label": "transitive sub-organization of",
+      "superproperties": [
+        {
+          "uri": "http://www.w3.org/ns/org#subOrganizationOf",
+          "label": "sub-organization of"
+        }
+      ]
+    }
+  ],
+  "datatypes": []
+}

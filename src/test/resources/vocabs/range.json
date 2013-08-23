@@ -1,0 +1,18 @@
+{
+  "classes": [],
+  "properties": [
+    {
+      "type": "property",
+      "uri": "http://www.w3.org/ns/org#subOrganizationOf",
+      "localName": "subOrganizationOf",
+      "label": "sub-organization of",
+      "ranges": [
+        {
+          "uri": "http://www.w3.org/ns/org#Organization",
+          "label": "Organization"
+        }
+      ]
+    }
+  ],
+  "datatypes": []
+}

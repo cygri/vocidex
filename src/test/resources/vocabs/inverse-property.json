@@ -1,0 +1,30 @@
+{
+  "classes": [],
+  "properties": [
+    {
+      "type": "property",
+      "uri": "http://www.w3.org/ns/org#hasSubOrganization",
+      "localName": "hasSubOrganization",
+      "label": "has sub-organization",
+      "inverseProperties": [
+        {
+          "uri": "http://www.w3.org/ns/org#subOrganizationOf",
+          "label": "sub-organization of"
+        }
+      ]
+    },
+    {
+      "type": "property",
+      "uri": "http://www.w3.org/ns/org#subOrganizationOf",
+      "localName": "subOrganizationOf",
+      "label": "sub-organization of",
+      "inverseProperties": [
+        {
+          "uri": "http://www.w3.org/ns/org#hasSubOrganization",
+          "label": "has sub-organization"
+        }
+      ]
+    }
+  ],
+  "datatypes": []
+}

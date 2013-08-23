@@ -1,0 +1,11 @@
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+SELECT DISTINCT ?inverseProperty {
+  # Check for both directions (it's reflexive).
+  # DISTINCT to avoid duplication in case both directions are asserted in input. 
+  {
+    ?term owl:inverseOf ?inverseProperty
+  } UNION {
+    ?inverseProperty owl:inverseOf ?term
+  }
+  FILTER (isURI(?inverseProperty))
+}

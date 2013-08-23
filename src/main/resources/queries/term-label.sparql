@@ -1,0 +1,15 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?label {
+  # ?term is an argument to be substituted
+  ?term rdfs:label ?label
+  # Only take xsd:string or untyped literals
+  FILTER (DATATYPE(?label) = xsd:string || DATATYPE(?label) = rdf:langString)
+}
+# Prefer the main language over others.
+# ?prefLang is an argument to be substituted.
+ORDER BY ASC(IF(LANGMATCHES(LANG(?label), ?prefLang), 1, 2))
+# Need only top result.
+LIMIT 1

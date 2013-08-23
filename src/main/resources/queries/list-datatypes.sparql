@@ -1,0 +1,11 @@
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT DISTINCT ?datatype {
+  # Find everything used as the range of a property (so, a datatype or class)
+  ?property rdfs:range ?datatype
+  # Skip blank node ranges
+  FILTER (isURI(?datatype))
+  # Keep only everything in the XSD namespace and well-known RDF namespaces
+  FILTER (STRSTARTS(STR(?datatype), STR(xsd:)) || ?datatype = rdf:XMLLiteral || ?datatype = rdf:HTML || ?datatype = rdf:langString)
+}

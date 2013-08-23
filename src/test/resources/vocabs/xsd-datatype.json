@@ -1,0 +1,26 @@
+{
+  "classes": [],
+  "properties": [
+    {
+      "type": "property",
+      "uri": "http://www.w3.org/ns/org#location",
+      "localName": "location",
+      "label": "location",
+      "ranges": [
+        {
+          "uri": "http://www.w3.org/2001/XMLSchema#string",
+          "label": "string",
+          "isDatatype": true
+        }
+      ]
+    }
+  ],
+  "datatypes": [
+    {
+      "type": "datatype",
+      "uri": "http://www.w3.org/2001/XMLSchema#string",
+      "localName": "string",
+      "label": "string"
+    }
+  ]
+}
