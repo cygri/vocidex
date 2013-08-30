@@ -1,7 +1,12 @@
-package org.deri.vocidex;
+package org.deri.vocidex.cli;
 
 import org.apache.jena.riot.RDFDataMgr;
 import org.apache.jena.riot.system.StreamRDFBase;
+import org.deri.vocidex.SPARQLRunner;
+import org.deri.vocidex.VocidexDocument;
+import org.deri.vocidex.VocidexException;
+import org.deri.vocidex.VocidexIndex;
+import org.deri.vocidex.extract.VocabularyTermExtractor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,40 +19,39 @@ import com.hp.hpl.jena.shared.NotFoundException;
 import com.hp.hpl.jena.sparql.core.Quad;
 
 /**
- * A command line interface for invoking the {@link ResourceIndexer}.
- * It is built using Jena's command line library.
+ * A command line utility that adds a single RDFS/OWL file to the index.
  * 
  * @author Richard Cyganiak
  */
-public class BuildIndexCLI extends CmdGeneral {
-	private final static Logger log = LoggerFactory.getLogger(BuildIndexCLI.class);
+public class AddVocabulary extends CmdGeneral {
+	private final static Logger log = LoggerFactory.getLogger(AddVocabulary.class);
 	
 	public static void main(String... args) {
-		new BuildIndexCLI(args).mainRun();
+		new AddVocabulary(args).mainRun();
 	}
 
-	private String inFile;
 	private String clusterName;
 	private String hostName;
 	private String indexName;
+	private String inFile;
 	
-	public BuildIndexCLI(String[] args) {
+	public AddVocabulary(String[] args) {
 		super(args);
 		getUsage().startCategory("Arguments");
-		getUsage().addUsage("input.rdf", "RDFS/OWL file or URL to be indexed; many RDF formats supported");
-		getUsage().addUsage("clusterName", "ElasticSearch cluster name");
+		getUsage().addUsage("clusterName", "ElasticSearch cluster name (e.g., elasticsearch)");
 		getUsage().addUsage("hostname", "ElasticSearch hostname (e.g., localhost)");
 		getUsage().addUsage("indexName", "ElasticSearch target index name (e.g., vocabs)");
+		getUsage().addUsage("input.rdf", "RDFS/OWL file or URL to be indexed; many RDF formats supported");
 	}
 	
 	@Override
     protected String getCommandName() {
-		return "build-index";
+		return "add-vocabulary";
 	}
 	
 	@Override
 	protected String getSummary() {
-		return getCommandName() + " input.rdf clusterName hostname indexName";
+		return getCommandName() + " clusterName hostname indexName input.rdf";
 	}
 
 	@Override
@@ -55,10 +59,10 @@ public class BuildIndexCLI extends CmdGeneral {
 		if (getPositional().size() < 4) {
 			doHelp();
 		}
-		inFile = getPositionalArg(0);
-		clusterName = getPositionalArg(1);
-		hostName = getPositionalArg(2);
-		indexName = getPositionalArg(3);
+		clusterName = getPositionalArg(0);
+		hostName = getPositionalArg(1);
+		indexName = getPositionalArg(2);
+		inFile = getPositionalArg(3);
 	}
 
 	@Override
@@ -77,19 +81,26 @@ public class BuildIndexCLI extends CmdGeneral {
 					model.getGraph().add(quad.asTriple());
 				}
 			}, inFile);
-			
 			log.info("Read " + model.size() + " triples");
-			VocabularyToJSONTransformer transformer = new VocabularyToJSONTransformer(model);
-			ResourceIndexer indexer = new ResourceIndexer(transformer, hostName, clusterName, indexName);
+			
+			VocidexIndex index = new VocidexIndex(clusterName, hostName, indexName);
 			try {
-				indexer.doDelete();
-				indexer.doIndex();
+				if (!index.exists()) {
+					throw new VocidexException("Index '" + indexName + "' does not exist on the cluster. Create the index first!");
+				}
+				for (VocidexDocument document: new VocabularyTermExtractor(new SPARQLRunner(model))) {
+					log.info("Indexing " + document.getId());
+					String resultId = index.addDocument(document);
+					log.debug("Added new " + document.getType() + ", id " + resultId);
+				}
+				log.info("Done!");
 			} finally {
-				indexer.close();
+				index.close();
 			}
-			log.info("Done!");
 		} catch (NotFoundException ex) {
 			cmdError("Not found: " + ex.getMessage());
+		} catch (VocidexException ex) {
+			cmdError(ex.getMessage());
 		}
 	}
 }

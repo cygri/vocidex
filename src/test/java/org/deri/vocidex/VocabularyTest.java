@@ -10,6 +10,8 @@ import java.util.Collection;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.node.ObjectNode;
+import org.deri.vocidex.describers.VocabularyDetailDescriber;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -59,7 +61,8 @@ public class VocabularyTest {
 	
 	@Test
 	public void test() {
-		JsonNode actualJson = new VocabularyToJSONTransformer(model).describeVocabulary();
+		ObjectNode actualJson = JSONHelper.createObject();
+		new VocabularyDetailDescriber(new SPARQLRunner(model)).describe(null, actualJson);
 		assertEquals(expectedJson, actualJson);
 	}
 }

@@ -92,16 +92,20 @@
           <installArtifacts>false</installArtifacts>
           <programs>
             <program>
-              <mainClass>org.deri.vocidex.BuildIndexCLI</mainClass>
-              <name>build-index</name>
+              <mainClass>org.deri.vocidex.cli.CreateIndex</mainClass>
+              <name>create-index</name>
+            </program>
+            <program>
+              <mainClass>org.deri.vocidex.cli.AddVocabulary</mainClass>
+              <name>add-vocabulary</name>
               <jvmSettings>
                 <!-- Let's be generous with memory -->
                 <maxMemorySize>1024m</maxMemorySize>
               </jvmSettings>
             </program>
             <program>
-              <mainClass>org.deri.vocidex.LOVIndexCLI</mainClass>
-              <name>lov-index</name>
+              <mainClass>org.deri.vocidex.cli.IndexLOV</mainClass>
+              <name>index-lov</name>
               <jvmSettings>
                 <!-- Let's be generous with memory -->
                 <maxMemorySize>1024m</maxMemorySize>

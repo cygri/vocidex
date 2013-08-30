@@ -15,3 +15,6 @@ target
 
 # ElasticSearch index, logs, etc
 elasticsearch
+
+# The LOV dump, in case we've downloaded it
+lov_aggregator.nq

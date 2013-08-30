@@ -2,17 +2,11 @@ package org.deri.vocidex;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.node.ArrayNode;
-import org.codehaus.jackson.node.ObjectNode;
 
 import com.hp.hpl.jena.query.Dataset;
 import com.hp.hpl.jena.query.DatasetFactory;
@@ -29,15 +23,20 @@ import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.rdf.model.ResourceFactory;
 import com.hp.hpl.jena.util.FileUtils;
 
-public class SPARQLToJSONHelper {
-	protected final ObjectMapper mapper = new ObjectMapper();
+/**
+ * Convenience class for running SPARQL queries stored in files against
+ * a Jena {@link Model} or {@link Dataset}.
+ * 
+ * @author Richard Cyganiak
+ */
+public class SPARQLRunner {
 	private final Dataset dataset;
 	
-	public SPARQLToJSONHelper(Model model) {
+	public SPARQLRunner(Model model) {
 		this(DatasetFactory.create(model));
 	}
 	
-	public SPARQLToJSONHelper(Dataset dataset) {
+	public SPARQLRunner(Dataset dataset) {
 		this.dataset = dataset;
 	}
 	
@@ -92,7 +91,7 @@ public class SPARQLToJSONHelper {
 		if (!queryCache.containsKey(filename)) {
 			try {
 				return QueryFactory.create(FileUtils.readWholeFileAsUTF8(
-						VocabularyToJSONTransformer.class.getResourceAsStream("/queries/" + filename)));
+						SPARQLRunner.class.getResourceAsStream("/queries/" + filename)));
 			} catch (IOException ex) {
 				throw new RuntimeException(ex);
 			}
@@ -100,34 +99,4 @@ public class SPARQLToJSONHelper {
 		return queryCache.get(filename);
 	}
 	private static final Map<String,Query> queryCache = new HashMap<String,Query>();
-	
-	public void putString(ObjectNode json, String key, String value) {
-		if (value != null) {
-			json.put(key, value);
-		}
-	}
-	
-	public void putBoolean(ObjectNode json, String key, boolean value) {
-		if (value) {
-			json.put(key, value);
-		}
-	}
-	
-	public void putURIArray(ObjectNode json, String key, Collection<Resource> uris) {
-		ArrayNode array = mapper.createArrayNode();
-		for (Resource uri: uris) {
-			array.add(uri.getURI());
-		}
-		if (array.size() > 0) {
-			json.put(key, array);
-		}
-	}	
-
-	public String asJsonString(JsonNode jsonNode) {
-		try {
-			return mapper.writeValueAsString(jsonNode);
-		} catch (IOException ex) {
-			throw new RuntimeException(ex);
-		}
-	}
 }
