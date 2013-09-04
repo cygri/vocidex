@@ -11,6 +11,7 @@ import org.deri.vocidex.describers.DatatypeIdentifier;
 import org.deri.vocidex.describers.LabelDescriber;
 
 import com.hp.hpl.jena.rdf.model.Resource;
+import com.hp.hpl.jena.util.FileUtils;
 
 public class JSONHelper {
 	protected final static ObjectMapper mapper = new ObjectMapper();
@@ -27,6 +28,17 @@ public class JSONHelper {
 		}
 	}
 	
+	/**
+	 * Reads a JSON file from a location relative to /src/main/resources
+	 */
+	public static String readFile(String fileName) {
+		try {
+			return FileUtils.readWholeFileAsUTF8(
+					VocidexIndex.class.getResourceAsStream("/" + fileName));
+		} catch (IOException ex) {
+			throw new VocidexException(ex);
+		}
+	}
 	public void putString(ObjectNode json, String key, String value) {
 		if (value != null) {
 			json.put(key, value);

@@ -1,0 +1,14 @@
+{
+  "vocabulary": {
+    "properties": {
+      "label": {
+        "type": "string",
+        "boost": 3.0
+      },
+      "prefix": {
+        "type": "string",
+        "boost": 3.0
+      }
+    }
+  }
+}
