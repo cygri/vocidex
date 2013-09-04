@@ -11,7 +11,7 @@ PREFIX vann: <http://purl.org/vocab/vann/>
 # ?prefix The vocabulary's preferred prefix, e.g., "foaf" for FOAF (plain literal)
 # ?title The vocabulary's title
 # ?shortTitle An optional shortened version of the title
-# ?description An optional description of the vocablary
+# ?description An optional description of the vocabulary
 # ?homepage An optional vocabulary homepage URL
 SELECT ?prefix ?title ?shortTitle ?description ?homepage {
 
@@ -21,7 +21,7 @@ SELECT ?prefix ?title ?shortTitle ?description ?homepage {
     ?vocab vann:preferredNamespacePrefix ?prefix .
 
     # We require an English title (or title of unspecified language).
-    # This unfortunately removes perfeclty fine vocabularies.
+    # This unfortunately removes perfectly fine vocabularies.
     ?vocab dct:title ?title . FILTER (LANGMATCHES(LANG(?title), "en") || LANG(?title) = "")
 
     OPTIONAL { ?vocab bibo:shortTitle ?shortTitle . FILTER (LANGMATCHES(LANG(?shortTitle), "en") || LANG(?title) = "") }
