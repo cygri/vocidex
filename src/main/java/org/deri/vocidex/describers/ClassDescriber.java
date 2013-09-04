@@ -28,8 +28,8 @@ public class ClassDescriber extends TermDescriber {
 	
 	public void describe(Resource class_, ObjectNode descriptionRoot) {
 		super.describe(TYPE, class_, descriptionRoot);
-		putURIArrayWithLabels(descriptionRoot, "superclasses", getSuperclasses(class_), labelProvider);
-		putURIArrayWithLabels(descriptionRoot, "disjointClasses", getDisjointClasses(class_), labelProvider);
-		putURIArrayWithLabels(descriptionRoot, "equivalentClasses", getEquivalentClasses(class_), labelProvider);
+		putURIArrayWithLabels(descriptionRoot, "superclasses", getSuperclasses(class_), labelDescriber);
+		putURIArrayWithLabels(descriptionRoot, "disjointClasses", getDisjointClasses(class_), labelDescriber);
+		putURIArrayWithLabels(descriptionRoot, "equivalentClasses", getEquivalentClasses(class_), labelDescriber);
 	}
 }

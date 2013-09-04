@@ -9,7 +9,7 @@
       "domains": [
         {
           "uri": "http://www.w3.org/ns/org#Organization",
-          "label": "Organization"
+          "label": "organization"
         }
       ]
     }

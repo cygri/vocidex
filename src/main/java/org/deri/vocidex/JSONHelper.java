@@ -8,7 +8,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 import org.deri.vocidex.describers.DatatypeIdentifier;
-import org.deri.vocidex.describers.LabelProvider;
+import org.deri.vocidex.describers.LabelDescriber;
 
 import com.hp.hpl.jena.rdf.model.Resource;
 
@@ -49,16 +49,18 @@ public class JSONHelper {
 		}
 	}	
 
-	public void putURIArrayWithLabels(ObjectNode json, String key, Collection<Resource> uris, LabelProvider labelProvider) {
-		putURIArrayWithLabels(json, key, uris, labelProvider, null);
+	public void putURIArrayWithLabels(ObjectNode json, String key, 
+			Collection<Resource> uris, LabelDescriber labeller) {
+		putURIArrayWithLabels(json, key, uris, labeller, null);
 	}
 
-	public void putURIArrayWithLabels(ObjectNode json, String key, Collection<Resource> uris, LabelProvider labelProvider, DatatypeIdentifier datatypeIdentifier) {
+	public void putURIArrayWithLabels(ObjectNode json, String key, 
+			Collection<Resource> uris, LabelDescriber labeller, DatatypeIdentifier datatypeIdentifier) {
 		ArrayNode array = mapper.createArrayNode();
 		for (Resource uri: uris) {
 			ObjectNode o = mapper.createObjectNode();
 			o.put("uri", uri.getURI());
-			o.put("label", labelProvider.getLabel(uri));
+			labeller.describe(uri, o);
 			if (datatypeIdentifier != null) {
 				if (datatypeIdentifier.isDatatype(uri)) {
 					o.put("isDatatype", true);

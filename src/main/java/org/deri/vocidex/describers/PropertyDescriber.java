@@ -44,11 +44,11 @@ public class PropertyDescriber extends TermDescriber {
 	
 	public void describe(Resource property, ObjectNode descriptionRoot) {
 		super.describe(TYPE, property, descriptionRoot);
-		putURIArrayWithLabels(descriptionRoot, "domains", getDomains(property), labelProvider);
-		putURIArrayWithLabels(descriptionRoot, "ranges", getRanges(property), labelProvider, datatypeIdentifier);
-		putURIArrayWithLabels(descriptionRoot, "superproperties", getSuperproperties(property), labelProvider);
-		putURIArrayWithLabels(descriptionRoot, "inverseProperties", getInverseProperties(property), labelProvider);
-		putURIArrayWithLabels(descriptionRoot, "equivalentProperties", getEquivalentProperties(property), labelProvider);
+		putURIArrayWithLabels(descriptionRoot, "domains", getDomains(property), labelDescriber);
+		putURIArrayWithLabels(descriptionRoot, "ranges", getRanges(property), labelDescriber, datatypeIdentifier);
+		putURIArrayWithLabels(descriptionRoot, "superproperties", getSuperproperties(property), labelDescriber);
+		putURIArrayWithLabels(descriptionRoot, "inverseProperties", getInverseProperties(property), labelDescriber);
+		putURIArrayWithLabels(descriptionRoot, "equivalentProperties", getEquivalentProperties(property), labelDescriber);
 		Collection<Resource> types = getTypes(property);
 		putBoolean(descriptionRoot, "isAnnotationProperty", types.contains(OWL.AnnotationProperty));
 		putBoolean(descriptionRoot, "isObjectProperty", types.contains(OWL.ObjectProperty));

@@ -6,11 +6,11 @@ import org.deri.vocidex.SPARQLRunner;
 import com.hp.hpl.jena.rdf.model.Resource;
 
 public abstract class TermDescriber extends SPARQLDescriber {
-	protected final LabelProvider labelProvider;
+	protected final LabelDescriber labelDescriber;
 	
 	public TermDescriber(SPARQLRunner source) {
 		super(source);
-		this.labelProvider = new LabelProvider(source);
+		this.labelDescriber = new LabelDescriber(source);
 	}
 	
 	public String getURI(Resource term) {
@@ -21,10 +21,6 @@ public abstract class TermDescriber extends SPARQLDescriber {
 		return term.getLocalName();
 	}
 
-	public String getLabel(Resource term) {
-		return labelProvider.getLabel(term);
-	}
-	
 	public String getComment(Resource term) {
 		return getSource().getLangString("term-comment.sparql", term, "comment");
 	}
@@ -33,7 +29,8 @@ public abstract class TermDescriber extends SPARQLDescriber {
 		descriptionRoot.put("type", type);
 		putString(descriptionRoot, "uri", getURI(term));
 		putString(descriptionRoot, "localName", getLocalName(term));
-		putString(descriptionRoot, "label", getLabel(term));
 		putString(descriptionRoot, "comment", getComment(term));
+		// Adds "label" key
+		labelDescriber.describe(term, descriptionRoot);
 	}
 }
