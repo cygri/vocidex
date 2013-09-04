@@ -10,6 +10,7 @@ import org.deri.vocidex.extract.VocabularyTermExtractor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import arq.cmdline.ArgDecl;
 import arq.cmdline.CmdGeneral;
 
 import com.hp.hpl.jena.graph.Triple;
@@ -30,10 +31,13 @@ public class AddVocabulary extends CmdGeneral {
 		new AddVocabulary(args).mainRun();
 	}
 
+    private final ArgDecl prefixArg = new ArgDecl(true, "prefix");
+
 	private String clusterName;
 	private String hostName;
 	private String indexName;
 	private String inFile;
+	private String prefix = null;
 	
 	public AddVocabulary(String[] args) {
 		super(args);
@@ -42,6 +46,8 @@ public class AddVocabulary extends CmdGeneral {
 		getUsage().addUsage("hostname", "ElasticSearch hostname (e.g., localhost)");
 		getUsage().addUsage("indexName", "ElasticSearch target index name (e.g., vocabs)");
 		getUsage().addUsage("input.rdf", "RDFS/OWL file or URL to be indexed; many RDF formats supported");
+        getUsage().startCategory("Options");
+        add(prefixArg, "--prefix prefix", "Set prefix to be used for this vocabulary");
 	}
 	
 	@Override
@@ -56,13 +62,16 @@ public class AddVocabulary extends CmdGeneral {
 
 	@Override
 	protected void processModulesAndArgs() {
-		if (getPositional().size() < 4) {
+		if (getPositional().size() < 4 || getPositional().size() > 4) {
 			doHelp();
 		}
 		clusterName = getPositionalArg(0);
 		hostName = getPositionalArg(1);
 		indexName = getPositionalArg(2);
 		inFile = getPositionalArg(3);
+		if (hasArg(prefixArg)) {
+			prefix = getArg(prefixArg).getValue();
+		}
 	}
 
 	@Override
@@ -88,7 +97,7 @@ public class AddVocabulary extends CmdGeneral {
 				if (!index.exists()) {
 					throw new VocidexException("Index '" + indexName + "' does not exist on the cluster. Create the index first!");
 				}
-				for (VocidexDocument document: new VocabularyTermExtractor(new SPARQLRunner(model))) {
+				for (VocidexDocument document: new VocabularyTermExtractor(new SPARQLRunner(model), prefix)) {
 					log.info("Indexing " + document.getId());
 					String resultId = index.addDocument(document);
 					log.debug("Added new " + document.getType() + ", id " + resultId);

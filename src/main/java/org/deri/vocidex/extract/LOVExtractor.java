@@ -67,7 +67,9 @@ public class LOVExtractor implements Extractor {
 				Resource vocab = currentVocabularyDocument.getURI();
 				
 				// Extractor for all terms mentioned in the vocabulary graph
-				VocabularyTermExtractor ex = new VocabularyTermExtractor(getSPARQLRunnerForVocabulary(vocab));
+				VocabularyTermExtractor ex = new VocabularyTermExtractor(
+						getSPARQLRunnerForVocabulary(vocab),
+						currentVocabularyDocument.getRoot().get("prefix").getTextValue());
 				
 				// Keep only the documents actually defined in that vocabulary,
 				// and enrich them with some extra vocabulary information

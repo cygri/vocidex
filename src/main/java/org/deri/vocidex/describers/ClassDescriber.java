@@ -10,8 +10,8 @@ import com.hp.hpl.jena.rdf.model.Resource;
 public class ClassDescriber extends TermDescriber {
 	public final static String TYPE = "class";
 	
-	public ClassDescriber(SPARQLRunner source) {
-		super(source);
+	public ClassDescriber(SPARQLRunner source, String prefix) {
+		super(source, prefix);
 	}
 	
 	public Collection<Resource> getSuperclasses(Resource class_) {

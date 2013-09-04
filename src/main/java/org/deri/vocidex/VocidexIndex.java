@@ -56,8 +56,15 @@ public class VocidexIndex implements Closeable {
 	
 	public boolean create() {
 		connect();
-		return client.admin().indices().create(Requests.createIndexRequest(indexName)).actionGet().isAcknowledged();
+		if (!client.admin().indices().create(Requests.createIndexRequest(indexName)).actionGet().isAcknowledged()) {
+			return false;
+		}
 		// TODO: Read mappings from a JSON file and set them on the index
+		// Perhaps like this?
+		// String json = JSONHelper.readFile(...)
+		// (FileUtils.readWholeFileAsUTF8(VocidexIndex.class.getResourceAsStream("/mapping.json" + filename))
+		// client.admin().indices().preparePutMapping().setIndices(indexName).setSource(json).execute();
+		return true;
 	}
 	
 	/**

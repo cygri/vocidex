@@ -23,7 +23,6 @@ public class LOVWrapper extends Filter<VocidexDocument> implements Extractor {
 	private final Extractor wrapped;
 	private final Collection<Resource> eligibleResources;
 	private final Describer vocabularyDescriber;
-	private final Describer prefixedNameDescriber;
 	
 	/**
 	 * @param wrapped The underlying extractor whose results are to be modified
@@ -41,13 +40,6 @@ public class LOVWrapper extends Filter<VocidexDocument> implements Extractor {
 				v.remove("shortLabel");
 				v.remove("comment");
 				descriptionRoot.put("vocabulary", v);
-			}
-		};
-		final String prefix = vocabularyDescription.get("prefix").getTextValue();
-		this.prefixedNameDescriber = new Describer() {
-			@Override
-			public void describe(Resource term, ObjectNode descriptionRoot) {
-				descriptionRoot.put("prefixed", prefix + ":" + term.getLocalName());
 			}
 		};
 	}
@@ -69,8 +61,6 @@ public class LOVWrapper extends Filter<VocidexDocument> implements Extractor {
 	 * @return The modified document
 	 */
 	private VocidexDocument modifyDocument(VocidexDocument doc) {
-		// Add "prefixed" field with prefixed name
-		prefixedNameDescriber.describe(doc.getURI(), doc.getRoot());
 		// Add "vocabulary" field with selected vocabulary details
 		vocabularyDescriber.describe(doc.getURI(), doc.getRoot());
 		return doc;

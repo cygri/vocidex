@@ -20,31 +20,37 @@ import com.hp.hpl.jena.util.iterator.NiceIterator;
  * @author Richard Cyganiak
  */
 public class VocabularyTermExtractor implements Extractor {
-	private SPARQLRunner source;
+	private final SPARQLRunner source;
+	private final String prefix;
 	
-	public VocabularyTermExtractor(SPARQLRunner source) {
+	/**
+	 * @param source Model containing declarations of vocabulary terms
+	 * @param prefix Prefix to be used for creating prefixed names; may be null
+	 */
+	public VocabularyTermExtractor(SPARQLRunner source, String prefix) {
 		this.source = source;
+		this.prefix = prefix;
 	}
 	
 	/**
 	 * Extract only classes
 	 */
 	public Iterator<VocidexDocument> classes() {
-		return createDescriptionIterator("list-classes.sparql", "class", new ClassDescriber(source));
+		return createDescriptionIterator("list-classes.sparql", "class", new ClassDescriber(source, prefix));
 	}
 	
 	/**
 	 * Extract only properties
 	 */
 	public Iterator<VocidexDocument> properties() {
-		return createDescriptionIterator("list-properties.sparql", "property", new PropertyDescriber(source));
+		return createDescriptionIterator("list-properties.sparql", "property", new PropertyDescriber(source, prefix));
 	}
 	
 	/**
 	 * Extract only data types
 	 */
 	public Iterator<VocidexDocument> datatypes() {
-		return createDescriptionIterator("list-datatypes.sparql", "datatype", new DatatypeDescriber(source));
+		return createDescriptionIterator("list-datatypes.sparql", "datatype", new DatatypeDescriber(source, prefix));
 	}
 
 	/**

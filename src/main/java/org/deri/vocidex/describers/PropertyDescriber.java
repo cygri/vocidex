@@ -13,8 +13,8 @@ public class PropertyDescriber extends TermDescriber {
 
 	private final DatatypeIdentifier datatypeIdentifier;
 	
-	public PropertyDescriber(SPARQLRunner source) {
-		super(source);
+	public PropertyDescriber(SPARQLRunner source, String prefix) {
+		super(source, prefix);
 		this.datatypeIdentifier = new DatatypeIdentifier();
 	}
 	

@@ -159,3 +159,65 @@ Running the tests:
 `mvn test`
 
 Use the issue tracker to discuss stuff, and feel free to submit pull requests.
+
+
+## Structure of indexed JSON documents
+
+Vocidex works by creating a JSON document for each entity to be indexed (classes, properties, datatypes, vocabularies), and putting them into an ElasticSearch index. Here we document the structure of these JSON documents.
+
+Note: “term array” is a JSON array of objects, each with `uri` and `label` keys.
+
+### All Terms (classes, properties, datatypes)
+
+* `type`: `class`, `property`, `datatype`
+* `uri`: absolute URI
+* `prefix`: Namespace prefix, either provided by LOV or manually at index time; may be absent
+* `localName`: Part after the last hash/slash
+* `prefixed`: Prefixed name (e.g., `foaf:Person`), or absent if no `prefix`
+* `label`: `rdfs:label` or similar property, or a string synthesized from the local name
+* `comment`: `rdfs:comment` or similar property; may be absent
+* `vocabulary`: LOV metadata about the vocabulary; may be absent
+** `uri`
+** `prefix`
+** `label`
+** `homepage`
+
+### Class
+
+Term keys as listed above, plus:
+
+* `superclasses`: term array
+* `disjointClasses`: term array
+* `equivalentClasses`: term array
+
+### Property
+
+Term keys as listed above, plus:
+
+* `domains`: term array
+* `ranges`: term array; each member also has either an `isDatatype` or `isClass` field with value `true`
+* `superproperties`: term array
+* `inverseProperties`: term array
+* `equivalentProperties`: term array
+* `isAnnotationProperty`: boolean
+* `isObjectProperty`: boolean
+* `isDatatypeProperty`: boolean
+* `isFunctionalProperty`: boolean
+* `isInverseFunctionalProperty`: boolean
+* `isTransitiveProperty`: boolean
+* `isSymmetricProperty`: boolean
+
+### Datatype
+
+Term keys as listed above
+
+### Vocabulary
+
+* `type`: `vocabulary`
+* `uri`: absolute URI as per LOV
+* `prefix`: conventional prefix as per LOV
+* `label`: as for terms
+* `shortLabel`: curated short-form label as per LOV; may be absent
+* `comment`: as for terms
+* `homepage`: URL from LOV metadata; may be absent
+
