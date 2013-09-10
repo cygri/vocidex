@@ -7,6 +7,7 @@ import org.codehaus.jackson.node.ObjectNode;
 import org.deri.vocidex.JSONHelper;
 import org.deri.vocidex.VocidexDocument;
 import org.deri.vocidex.describers.Describer;
+import org.deri.vocidex.describers.LOVTermMetricsDescriber;
 
 import com.hp.hpl.jena.rdf.model.Resource;
 import com.hp.hpl.jena.util.iterator.Filter;
@@ -23,15 +24,17 @@ public class LOVWrapper extends Filter<VocidexDocument> implements Extractor {
 	private final Extractor wrapped;
 	private final Collection<Resource> eligibleResources;
 	private final Describer vocabularyDescriber;
+	private final Describer termMetricsDescriber;
 	
 	/**
 	 * @param wrapped The underlying extractor whose results are to be modified
 	 * @param eligibleResources Any resources listed by the wrapped extractor but not in this collection will be ignored
 	 * @param vocabularyDescription A vocabulary description based on this node is added to each returned document
 	 */
-	public LOVWrapper(VocabularyTermExtractor wrapped, Collection<Resource> eligibleResources, final ObjectNode vocabularyDescription) {
+	public LOVWrapper(VocabularyTermExtractor wrapped, Collection<Resource> eligibleResources, final ObjectNode vocabularyDescription, final LOVTermMetricsDescriber termMetricsDescriber) {
 		this.wrapped = wrapped;
 		this.eligibleResources = eligibleResources;
+		this.termMetricsDescriber = termMetricsDescriber;
 		this.vocabularyDescriber = new Describer() {
 			@Override
 			public void describe(Resource resource, ObjectNode descriptionRoot) {
@@ -63,6 +66,7 @@ public class LOVWrapper extends Filter<VocidexDocument> implements Extractor {
 	private VocidexDocument modifyDocument(VocidexDocument doc) {
 		// Add "vocabulary" field with selected vocabulary details
 		vocabularyDescriber.describe(doc.getURI(), doc.getRoot());
+		termMetricsDescriber.describe(doc.getURI(), doc.getRoot());
 		return doc;
 	}
 	

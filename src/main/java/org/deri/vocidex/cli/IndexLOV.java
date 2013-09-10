@@ -4,9 +4,12 @@ import java.util.Iterator;
 
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
+import org.deri.vocidex.JSONHelper;
+import org.deri.vocidex.SPARQLRunner;
 import org.deri.vocidex.VocidexDocument;
 import org.deri.vocidex.VocidexException;
 import org.deri.vocidex.VocidexIndex;
+import org.deri.vocidex.describers.LOVTermMetricsDescriber;
 import org.deri.vocidex.extract.LOVExtractor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import arq.cmdline.CmdGeneral;
 
 import com.hp.hpl.jena.query.Dataset;
+import com.hp.hpl.jena.rdf.model.ResourceFactory;
 import com.hp.hpl.jena.shared.NotFoundException;
 
 /**

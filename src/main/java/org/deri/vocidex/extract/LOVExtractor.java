@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 
 import org.deri.vocidex.SPARQLRunner;
 import org.deri.vocidex.VocidexDocument;
+import org.deri.vocidex.describers.LOVTermMetricsDescriber;
 import org.deri.vocidex.describers.LOVVocabularyDescriber;
 
 import com.hp.hpl.jena.query.Dataset;
@@ -23,11 +24,13 @@ public class LOVExtractor implements Extractor {
 	private final Dataset dataset;
 	private final SPARQLRunner source;
 	private final LOVVocabularyDescriber vocabularyDescriber;
+	private final LOVTermMetricsDescriber termMetricsDescriber;
 	
 	public LOVExtractor(Dataset dataset) {
 		this.dataset = dataset;
 		this.source = new SPARQLRunner(dataset);
 		this.vocabularyDescriber = new LOVVocabularyDescriber(source);
+		this.termMetricsDescriber = new LOVTermMetricsDescriber(source);
 	}
 	
 	public Collection<Resource> listVocabularies() {
@@ -74,7 +77,7 @@ public class LOVExtractor implements Extractor {
 				// Keep only the documents actually defined in that vocabulary,
 				// and enrich them with some extra vocabulary information
 				currentDocIterator = new LOVWrapper(
-						ex, listDefinedTerms(vocab), currentVocabularyDocument.getRoot()).iterator();
+						ex, listDefinedTerms(vocab), currentVocabularyDocument.getRoot(),termMetricsDescriber).iterator();
 
 				// At least the vocabulary document always exists, so return true
 				return true;

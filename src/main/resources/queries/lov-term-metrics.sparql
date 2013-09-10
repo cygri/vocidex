@@ -1,0 +1,17 @@
+﻿PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+PREFIX voaf: <http://purl.org/vocommons/voaf#>
+PREFIX vann: <http://purl.org/vocab/vann/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+# ?term A term (class, property or datatype)
+SELECT *{
+  # Metrics information are present in lov metrics graph
+  GRAPH <http://lov.okfn.org/dataset/lov/stats/lov_metrics.n3>{
+	# We select the 4 metrics available
+	?term voaf:occurrencesInVocabularies ?occurrencesInVocabularies;
+		voaf:occurrencesInDatasets ?occurrencesInDatasets;
+		voaf:reusedByVocabularies ?reusedByVocabularies;
+		voaf:reusedByDatasets ?reusedByDatasets.
+  }
+}LIMIT 1
