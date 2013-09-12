@@ -139,12 +139,20 @@ curl -XPOST 'http://localhost:9200/lov/class,property,vocabulary/_search?pretty=
 ````
 
 
-### Autocompletion on prefixed names
+### Autocompletion
 
-This does a [prefix query](http://www.elasticsearch.org/guide/reference/query-dsl/prefix-query/) on both the `prefixed` and `localName` fields.
+This provides an autocomplete feature on pre-tokenized (using edge_ngram [1;100]) and indexed fields `*.autocomplete`.
 
 ````
-curl -XPOST 'http://localhost:9200/lov/class,property/_search?pretty=1' -d '{"query":{"bool":{"should":[{"prefix":{"prefixed":"fr"}},{"prefix":{"localName":"fr"}}]}}}'
+curl -XPOST 'http://localhost:9200/lov/class,property/_search?pretty=1' -d '{
+  "query" : {
+     "multi_match" : {
+         "query": "foaf:",
+         "fields": ["prefixed.autocomplete","uri.autocomplete"],
+          "type" : "match_phrase"
+     }
+  }
+}'
 ````
 
 
@@ -171,9 +179,12 @@ Note: “term array” is a JSON array of objects, each with `uri` and `label` k
 
 * `type`: `class`, `property`, `datatype`
 * `uri`: absolute URI
+* `uri.autocomplete`: edge_ngram tokenized for autocomplete over `uri`
 * `prefix`: Namespace prefix, either provided by LOV or manually at index time; may be absent
 * `localName`: Part after the last hash/slash
+* `localName.autocomplete`: edge_ngram tokenized for autocomplete over `localName`
 * `prefixed`: Prefixed name (e.g., `foaf:Person`), or absent if no `prefix`
+* `prefixed.autocomplete`: edge_ngram tokenized for autocomplete over `prefixed`
 * `label`: `rdfs:label` or similar property, or a string synthesized from the local name
 * `comment`: `rdfs:comment` or similar property; may be absent
 * `vocabulary`: LOV metadata about the vocabulary; may be absent
@@ -215,7 +226,9 @@ Term keys as listed above
 
 * `type`: `vocabulary`
 * `uri`: absolute URI as per LOV
+* `uri.autocomplete`: edge_ngram tokenized for autocomplete over `uri`
 * `prefix`: conventional prefix as per LOV
+* `prefix.autocomplete`: edge_ngram tokenized for autocomplete over `prefix`
 * `label`: as for terms
 * `shortLabel`: curated short-form label as per LOV; may be absent
 * `comment`: as for terms

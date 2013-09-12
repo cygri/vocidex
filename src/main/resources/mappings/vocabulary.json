@@ -5,9 +5,32 @@
         "type": "string",
         "boost": 3.0
       },
-      "prefix": {
-        "type": "string",
-        "boost": 3.0
+	  "prefix":{
+        "type":"multi_field",
+        "fields":{
+          "prefix":{
+            "type":"string",
+			"boost": 3.0
+          },
+          "autocomplete":{
+            "search_analyzer" : "autocomplete_ngram_search",
+            "index_analyzer" : "autocomplete_ngram_index",
+            "type":"string"
+          }
+        }
+      },
+	   "uri":{
+        "type":"multi_field",
+        "fields":{
+          "uri":{
+            "type":"string"
+          },
+          "autocomplete":{
+            "search_analyzer" : "autocomplete_ngram_search",
+            "index_analyzer" : "autocomplete_ngram_index",
+            "type":"string"
+          }
+        }
       }
     }
   }

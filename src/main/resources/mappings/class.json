@@ -8,7 +8,58 @@
       "prefix": {
         "type": "string",
         "boost": 3.0
-      }
+      },
+	  "prefixed":{
+        "type":"multi_field",
+        "fields":{
+          "prefixed":{
+            "type":"string"
+          },
+          "autocomplete":{
+            "search_analyzer" : "autocomplete_ngram_search",
+            "index_analyzer" : "autocomplete_ngram_index",
+            "type":"string"
+          }
+        }
+      },
+	  "uri":{
+        "type":"multi_field",
+        "fields":{
+          "uri":{
+            "type":"string"
+          },
+          "autocomplete":{
+            "search_analyzer" : "autocomplete_ngram_search",
+            "index_analyzer" : "autocomplete_ngram_index",
+            "type":"string"
+          }
+        }
+      },
+	  "localName":{
+        "type":"multi_field",
+        "fields":{
+          "localName":{
+            "type":"string"
+          },
+          "autocomplete":{
+            "search_analyzer" : "autocomplete_ngram_search",
+            "index_analyzer" : "autocomplete_ngram_index",
+            "type":"string"
+          }
+        }
+      },
+	  "metrics.occurrencesInVocabularies": {
+        "type": "integer"
+	  },
+	  "metrics.occurrencesInDatasets": {
+        "type": "integer"
+	  },
+	  "metrics.reusedByVocabularies": {
+        "type": "integer"
+	  },
+	  "metrics.reusedByDatasets": {
+        "type": "integer"
+	  }
     }
   }
 }

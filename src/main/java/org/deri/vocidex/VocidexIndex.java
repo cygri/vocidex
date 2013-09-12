@@ -56,7 +56,8 @@ public class VocidexIndex implements Closeable {
 	
 	public boolean create() {
 		connect();
-		if (!client.admin().indices().create(Requests.createIndexRequest(indexName)).actionGet().isAcknowledged()) {
+		//create index with specific settings
+		if (!client.admin().indices().create(Requests.createIndexRequest(indexName).settings(JSONHelper.readFile("mappings/settings.json"))).actionGet().isAcknowledged()) {
 			return false;
 		}
 		// TODO: Add mappings/common.json for the shared stuff
@@ -64,6 +65,7 @@ public class VocidexIndex implements Closeable {
 		if (!setMapping("property", "mappings/property.json")) return false;
 		if (!setMapping("datatype", "mappings/datatype.json")) return false;
 		if (!setMapping("vocabulary", "mappings/vocabulary.json")) return false;
+		
 		return true;
 	}
 	
