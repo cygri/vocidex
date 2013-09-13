@@ -145,6 +145,7 @@ This provides an autocomplete feature on pre-tokenized (using edge_ngram [1;100]
 
 ````
 curl -XPOST 'http://localhost:9200/lov/class,property/_search?pretty=1' -d '{
+  "fields" : ["uri", "prefixed", "localName"],
   "query" : {
      "multi_match" : {
          "query": "foaf:",
