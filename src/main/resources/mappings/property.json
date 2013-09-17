@@ -9,10 +9,10 @@
         "type": "string",
         "boost": 3.0
       },
-	  "prefixed":{
+	  "prefixedName":{
         "type":"multi_field",
         "fields":{
-          "prefixed":{
+          "prefixedName":{
             "type":"string"
           },
           "autocomplete":{
