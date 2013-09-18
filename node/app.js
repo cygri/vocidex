@@ -5,6 +5,14 @@ var express = require('express')
  
 var app = express();
 
+// all environments
+app.set('port', process.env.PORT || 3000);
+app.use(express.logger('dev'));
+app.use(express.bodyParser());
+app.use(express.methodOverride());
+app.use(app.router);
+
+
 // Number of search results per page
 var pageSize = 10;
 // Name of the ElasticSearch index
@@ -137,4 +145,12 @@ app.get('/autocomplete/vocabularies', function(req, res) {
 	}
 });
 
-app.listen(2000,"127.0.0.1");
+
+
+function errorHandler(err, req, res, next) {
+  res.status(500);
+  res.render('error', { error: err });
+}
+http.createServer(app).listen(app.get('port'), function(){
+  console.log('Express server listening on port ' + app.get('port'));
+});
