@@ -32,7 +32,7 @@ public abstract class TermDescriber extends SPARQLDescriber {
 		putString(descriptionRoot, "uri", getURI(term));
 		if (prefix != null) {
 			descriptionRoot.put("prefix", prefix);
-			descriptionRoot.put("prefixed", prefix + ":" + getLocalName(term));
+			descriptionRoot.put("prefixedName", prefix + ":" + getLocalName(term));
 		};
 		putString(descriptionRoot, "localName", getLocalName(term));
 		// Adds "label" key
